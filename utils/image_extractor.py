@@ -1,9 +1,7 @@
 import fitz
 import os
 
-
 OUTPUT_DIR = "static/extracted_images"
-
 
 def extract_images(pdf_path):
 
@@ -35,5 +33,6 @@ def extract_images(pdf_path):
                 f.write(image_bytes)
 
             extracted.append(filepath)
+
 
     return extracted

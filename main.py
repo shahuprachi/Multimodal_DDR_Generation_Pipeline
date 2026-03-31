@@ -46,11 +46,12 @@ def home():
         inspection.save(inspection_path)
         thermal.save(thermal_path)
 
+        # Load text
         inspection_text = load_pdf_text(inspection_path)
         thermal_text = load_pdf_text(thermal_path)
 
+        # NLP pipeline
         observations = parse_inspection(inspection_text)
-
         temperatures = parse_thermal(thermal_text)
 
         merged = merge_observations(observations)
@@ -67,19 +68,20 @@ def home():
             temperatures
         )
 
-        images = extract_images(inspection_path) 
-        if not images:
-            images=["not_applicable"] # ✅ fixed here
+        # Extract images from inspection PDF
+        images = extract_images(inspection_path)
 
-        mapped_images = map_images(images)
+        image_list=images
 
+        # Generate DDR PDF WITH images
         report = generate_ddr(
             inspection_text,
             merged,
             temperatures,
             conflicts,
             missing,
-            severity
+            severity,
+            image_list
         )
 
     return render_template(
